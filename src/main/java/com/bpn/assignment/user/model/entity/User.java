@@ -1,11 +1,15 @@
 package com.bpn.assignment.user.model.entity;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.bpn.assignment.blog.model.entity.Blog;
 import com.bpn.assignment.model.entity.DefaultEntityModel;
 import com.bpn.assignment.user.credential.model.entity.UserCredential;
 import com.bpn.assignment.user.credential.model.entity.UserStatus;
@@ -29,6 +33,9 @@ public class User extends DefaultEntityModel {
 	private UserRole userRole;
 
 	private UserStatus userStatus;
+
+	@OneToMany(mappedBy = "user")
+	private Set<Blog> blogs;
 
 	public String getFirstName() {
 		return firstName;
@@ -84,6 +91,14 @@ public class User extends DefaultEntityModel {
 
 	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public Set<Blog> getBlogs() {
+		return blogs;
+	}
+
+	public void setBlogs(Set<Blog> blogs) {
+		this.blogs = blogs;
 	}
 
 }

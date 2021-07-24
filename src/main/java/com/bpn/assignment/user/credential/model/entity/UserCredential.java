@@ -21,7 +21,6 @@ public class UserCredential extends CommonEntityModel {
 
 	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private User user;
 
 	public String getEmail() {

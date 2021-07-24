@@ -5,6 +5,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -62,7 +64,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getAll(int page, int size) {
-		return repo.findAll();
+		Pageable pageable = PageRequest.of(page, size);
+		return repo.getAllUser(pageable);
 	}
 
 	@Override
