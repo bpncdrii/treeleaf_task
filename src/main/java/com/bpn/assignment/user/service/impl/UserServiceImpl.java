@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.bpn.assignment.security.model.MyUserDetails;
 import com.bpn.assignment.user.credential.model.entity.UserCredential;
 import com.bpn.assignment.user.credential.model.entity.UserStatus;
 import com.bpn.assignment.user.credential.repository.UserCredentialRepository;
@@ -20,6 +22,7 @@ import com.bpn.assignment.user.model.entity.User;
 import com.bpn.assignment.user.repository.UserRepository;
 import com.bpn.assignment.user.role.model.entity.UserRole;
 import com.bpn.assignment.user.service.UserService;
+import com.bpn.assignment.utils.Constants;
 import com.bpn.assignment.utils.DtoConverter;
 
 @Service
@@ -73,6 +76,16 @@ public class UserServiceImpl implements UserService {
 		User entity = repo.findById(dto.getId()).orElseThrow(
 				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + dto.getId()));
 
+		long id = ((MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getSecUser()
+				.getUser().getId();
+
+		User users = new User();
+		users.setId(id);
+
+		if (id != entity.getId()) {
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+		}
+
 		if (dto.getFirstName() != null)
 			entity.setFirstName(dto.getFirstName());
 		if (dto.getLastName() != null)
@@ -89,8 +102,34 @@ public class UserServiceImpl implements UserService {
 	public boolean delete(long id) {
 		User user = repo.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + id));
+
+		String role = ((MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+				.getSecUser().getRoles();
+
+		long user_id = ((MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
+				.getSecUser().getUser().getId();
+
+		User users = new User();
+		users.setId(id);
+
+		if (!role.equals(Constants.ROLE_ADMIN)) {
+			if (user_id != user.getId()) {
+				throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+			}
+		}
+
 		repo.delete(user);
 		return true;
+	}
+
+	@Override
+	public User changeUserStatus(long id, UserStatus status) {
+		User user = repo.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + id));
+
+		user.setUserStatus(status);
+
+		return repo.save(user);
 	}
 
 }

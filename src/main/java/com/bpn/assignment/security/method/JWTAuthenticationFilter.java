@@ -51,13 +51,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
 
-		if (((MyUserDetails) auth.getPrincipal()).getSecUser().getUserStatus() == UserStatus.disable) {
-			String json = new Gson().toJson(new LoginFailedResponse(false, "User is disabled"));
-			res.setContentType("application/json");
-			res.setCharacterEncoding("UTF-8");
-			res.getWriter().write(json);
-			logger.info("json: " + json);
-		} else if (((MyUserDetails) auth.getPrincipal()).getSecUser().getUserStatus() == UserStatus.blocked) {
+		if (((MyUserDetails) auth.getPrincipal()).getSecUser().getUserStatus() == UserStatus.blocked) {
 			String json = new Gson().toJson(new LoginFailedResponse(false, "Account is blocked"));
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");

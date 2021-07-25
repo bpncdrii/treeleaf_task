@@ -1,10 +1,14 @@
 package com.bpn.assignment.blog.model.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import com.bpn.assignment.comment.model.entity.Comments;
 import com.bpn.assignment.model.entity.DefaultEntityModel;
 import com.bpn.assignment.user.model.entity.User;
 
@@ -15,11 +19,16 @@ public class Blog extends DefaultEntityModel {
 
 	@Column(name = "blog_text", columnDefinition = "Text")
 	private String text;
-	private String image;
 
 	@ManyToOne
 	@JoinColumn(name = "writer_id", referencedColumnName = "id")
 	private User user;
+
+	@OneToMany(mappedBy = "blog")
+	private Set<BlogImages> images;
+
+	@OneToMany(mappedBy = "blog")
+	private Set<Comments> comments;
 
 	public String getTitle() {
 		return title;
@@ -37,20 +46,28 @@ public class Blog extends DefaultEntityModel {
 		this.text = text;
 	}
 
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
 	public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Set<BlogImages> getImages() {
+		return images;
+	}
+
+	public void setImages(Set<BlogImages> images) {
+		this.images = images;
+	}
+
+	public Set<Comments> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comments> comments) {
+		this.comments = comments;
 	}
 
 }

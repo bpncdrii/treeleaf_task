@@ -32,7 +32,7 @@ public class BlogController {
 	@PostMapping
 	@PreAuthorize("hasAnyRole('" + Constants.ROLE_ADMIN + "', '" + Constants.ROLE_CLIENT + "')")
 	public ResponseEntity save(@RequestBody BlogDto dto) {
-		return ResponseMessage.success(DtoConverter.convert(service.save(DtoConverter.convert(dto))));
+		return ResponseMessage.success(DtoConverter.convert(service.save(dto)));
 	}
 
 	@GetMapping

@@ -7,7 +7,7 @@ import com.bpn.assignment.blog.model.entity.Blog;
 
 public interface BlogService {
 
-	Blog save(Blog entity);
+	Blog save(BlogDto dto);
 
 	Blog getOne(long id);
 

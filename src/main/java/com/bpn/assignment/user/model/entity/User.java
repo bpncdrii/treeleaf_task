@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.bpn.assignment.blog.model.entity.Blog;
+import com.bpn.assignment.comment.model.entity.Comments;
 import com.bpn.assignment.model.entity.DefaultEntityModel;
 import com.bpn.assignment.user.credential.model.entity.UserCredential;
 import com.bpn.assignment.user.credential.model.entity.UserStatus;
@@ -36,6 +37,9 @@ public class User extends DefaultEntityModel {
 
 	@OneToMany(mappedBy = "user")
 	private Set<Blog> blogs;
+
+	@OneToMany(mappedBy = "user")
+	private Set<Comments> comments;
 
 	public String getFirstName() {
 		return firstName;
@@ -99,6 +103,14 @@ public class User extends DefaultEntityModel {
 
 	public void setBlogs(Set<Blog> blogs) {
 		this.blogs = blogs;
+	}
+
+	public Set<Comments> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comments> comments) {
+		this.comments = comments;
 	}
 
 }

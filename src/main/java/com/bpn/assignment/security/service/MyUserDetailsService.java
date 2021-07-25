@@ -40,6 +40,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		secUser.setActive(active);
 		secUser.setRoles(roles);
 		secUser.setUser(user.getUser());
+		secUser.setUserStatus(user.getUser().getUserStatus());
 
 		MyUserDetails myUserDetails = new MyUserDetails(secUser);
 

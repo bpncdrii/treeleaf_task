@@ -1,5 +1,8 @@
 package com.bpn.assignment.blog.model.dto;
 
+import java.util.List;
+
+import com.bpn.assignment.comment.model.dto.CommentDto1;
 import com.bpn.assignment.user.model.dto.UserDto2;
 
 public class BlogDto {
@@ -7,10 +10,12 @@ public class BlogDto {
 	private long id;
 	private String title;
 	private String text;
-	private String image;
-	private String imageUrl;
 
 	private UserDto2 writer;
+
+	private List<BlogImageDto> images;
+
+	private List<CommentDto1> comments;
 
 	public long getId() {
 		return id;
@@ -36,14 +41,6 @@ public class BlogDto {
 		this.text = text;
 	}
 
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
 	public UserDto2 getWriter() {
 		return writer;
 	}
@@ -52,12 +49,20 @@ public class BlogDto {
 		this.writer = writer;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public List<BlogImageDto> getImages() {
+		return images;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImages(List<BlogImageDto> images) {
+		this.images = images;
+	}
+
+	public List<CommentDto1> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentDto1> comments) {
+		this.comments = comments;
 	}
 
 }
